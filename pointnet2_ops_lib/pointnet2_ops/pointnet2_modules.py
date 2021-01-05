@@ -10,7 +10,7 @@ def build_shared_mlp(mlp_spec, bn=True):
     layers = []
     for i in range(1, len(mlp_spec)):
         layers.append(
-            nn.Conv2d(mlp_spec[i - 1], mlp_spec[i], kernel_size=1, bias=not bn)
+            nn.Conv2d(mlp_spec[i - 1], mlp_spec[i], kernel_size=1, bias=False)
         )
         if bn:
             layers.append(nn.BatchNorm2d(mlp_spec[i]))
