@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+
 
 import torch
 import torch.nn as nn
@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from pointnet2_ops import pointnet2_utils
 
 
-def build_shared_mlp(mlp_spec: List[int], bn: bool = True):
+def build_shared_mlp(mlp_spec, bn=True):
     layers = []
     for i in range(1, len(mlp_spec)):
         layers.append(
@@ -14,6 +14,8 @@ def build_shared_mlp(mlp_spec: List[int], bn: bool = True):
         )
         if bn:
             layers.append(nn.BatchNorm2d(mlp_spec[i]))
+        else:
+            layers.append(nn.GroupNorm(16, mlp_spec[i]))            
         layers.append(nn.ReLU(True))
 
     return nn.Sequential(*layers)
@@ -27,8 +29,8 @@ class _PointnetSAModuleBase(nn.Module):
         self.mlps = None
 
     def forward(
-        self, xyz: torch.Tensor, features: Optional[torch.Tensor]
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        self, xyz, features
+    ):
         r"""
         Parameters
         ----------
