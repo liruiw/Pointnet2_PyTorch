@@ -2,7 +2,7 @@ import os.path as osp
 
 from setuptools import find_packages, setup
 
-requirements = ["hydra-core==0.11.3", "pytorch-lightning==0.7.1"]
+requirements = ["hydra-core", "pytorch-lightning"]
 
 
 exec(open(osp.join("pointnet2", "_version.py")).read())
